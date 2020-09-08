@@ -2,7 +2,7 @@ import csv
 from flask import Flask, render_template, request, redirect
 from indeed_scrapper import get_indeed_jobs
 
-app = Flask("Job Scrapper")
+app = Flask("Job Scraper")
 db = {}
 
 def save_to_file(jobs):
