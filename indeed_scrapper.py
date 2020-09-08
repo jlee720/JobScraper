@@ -2,15 +2,10 @@
 import requests
 from bs4 import BeautifulSoup
 
-JOBS_KEYWORD = {
-  "NEW_GRAD" : "new+graduate+software+engineer"
-}
-
 LIMIT = 50
-URL = f"https://ca.indeed.com/jobs?q={JOBS_KEYWORD['NEW_GRAD']}&l=Canada"
 
-def extract_indeed_pages():
-  result = requests.get(URL)
+def extract_indeed_pages(url):
+  result = requests.get(url)
   soup = BeautifulSoup(result.text, 'html.parser')
 
   pagination = soup.find("div", {"class": "pagination"})
@@ -45,10 +40,10 @@ def extract_job_data(job_html):
       'link': f"https://ca.indeed.com/viewjob?jk={job_id}"
     }
 
-def extract_indeed_jobs(last_page):
+def extract_indeed_jobs(url, last_page):
   jobs = []
   for page in range(last_page):
-    result = requests.get((f"{URL}&limit={page * LIMIT}"))
+    result = requests.get((f"{url}&limit={page * LIMIT}"))
     soup = BeautifulSoup(result.text, 'html.parser')
     job_results = soup.find_all("div", {"class": "jobsearch-SerpJobCard"})
     
@@ -58,8 +53,9 @@ def extract_indeed_jobs(last_page):
 
   return jobs
 
-def get_indeed_jobs():
-  last_indeed_page = extract_indeed_pages()
-  indeed_jobs = extract_indeed_jobs(last_indeed_page)
+def get_indeed_jobs(keyword):
+  url = f"https://ca.indeed.com/jobs?q={keyword}&l=Canada"
+  last_indeed_page = extract_indeed_pages(url)
+  indeed_jobs = extract_indeed_jobs(url, last_indeed_page)
 
   return indeed_jobs
