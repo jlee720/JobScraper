@@ -1,4 +1,4 @@
-# JobScrapper
+# JobScraper
 
 A web scrapper to search for job positions in indeed.ca
 
