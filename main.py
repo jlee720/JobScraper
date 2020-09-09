@@ -10,10 +10,8 @@ def save_to_file(jobs):
   writer = csv.writer(file)
   writer.writerow(["Title", "Company", "Location", "Link"])
 
-  print("Writing...")
   for i in range(len(jobs)):
     writer.writerow(list(jobs[i].values()))
-  print("Successfully finished saving a file")
 
   return
 
